@@ -705,8 +705,10 @@
                 <div style="font:600 12px/1 'Libre Franklin',sans-serif;color:#2f6fb0;border:1px solid #c7d6e8;padding:7px 12px;border-radius:4px">{{ p.venue }}</div>
               </a>
               <a href="{{ p.appendix }}" target="_blank" style="display:{{ p.appendixDisplay }};margin:-12px 0 0 88px;padding:0 0 22px;font:600 12.5px/1.3 'Libre Franklin',sans-serif;color:#2f6fb0;text-decoration:none">Supplementary appendix (PDF) &rarr;</a>
+              <details class="wpdemo" style="display:{{ p.demoDisplay }}"><summary><span class="wpdemo-ind" aria-hidden="true"></span>{{ p.demoLabel }}</summary><div class="wpdemo-frame"><iframe src="{{ p.demo }}" loading="lazy" title="{{ p.demoLabel }}"></iframe></div><a class="wpdemo-open" href="{{ p.demo }}" target="_blank">Open full screen &rarr;</a></details>
             </div>
           </sc-for>
+          <style>.wpdemo{margin:-10px 0 22px 88px}.wpdemo>summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:9px;font:600 12.5px/1.3 'Libre Franklin',sans-serif;color:#2f6fb0}.wpdemo>summary::-webkit-details-marker{display:none}.wpdemo>summary:hover{text-decoration:underline}.wpdemo-ind{width:0;height:0;border-left:6px solid #2f6fb0;border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;transition:transform .15s}.wpdemo[open] .wpdemo-ind{transform:rotate(90deg)}.wpdemo-frame{margin-top:16px;border:1px solid #e6e8ef;border-radius:4px;overflow:hidden;aspect-ratio:1600/820}.wpdemo-frame iframe{display:block;width:100%;height:100%;border:0}.wpdemo-open{display:inline-block;margin-top:10px;font:500 12px/1.3 'Libre Franklin',sans-serif;color:#8a93a8;text-decoration:none}.wpdemo-open:hover{color:#2f6fb0}@media(max-width:720px){.wpdemo-frame{display:none}.wpdemo-open{font-weight:600;color:#2f6fb0}}</style>
         </div>
       </section>
     </div>
@@ -830,7 +832,7 @@ class Component extends DCLogic {
     ];
 
     const workingPapers = [
-      { year: '2026', title: 'Sticky Thresholds Under Vigilant Learning.', authors: 'W. Branch', venue: 'PDF', note: '', cites: 0, href: 'files/wps/StickyThresholds_2026.pdf', appendix: 'files/wps/StickyThresholds_appendix_2026.pdf' },
+      { year: '2026', title: 'Sticky Thresholds Under Vigilant Learning.', authors: 'W. Branch', venue: 'PDF', note: '', cites: 0, href: 'files/wps/StickyThresholds_2026.pdf', appendix: 'files/wps/StickyThresholds_appendix_2026.pdf', demo: 'files/anim/sticky-thresholds.html', demoLabel: 'Animated mechanism: the three-phase escape' },
       { year: '2026', title: 'Endogenously (Non-)Ricardian Beliefs.', authors: 'W. Branch & E. Gasteiger', venue: 'PDF', note: 'Forthcoming, International Economic Review', cites: 18, href: 'files/wps/Ricardian_2026.pdf' },
       { year: '2026', title: 'Identifying the Impact of Inflation Expectations.', authors: 'W. Branch', venue: 'PDF', note: 'Forthcoming, American Economic Journal: Macroeconomics', cites: 1, href: 'files/wps/identify_inflationexpects_2026.pdf' },
       { year: '2026', title: 'Misspecification and the Restricted Perceptions Approach.', authors: 'W. Branch', venue: 'PDF', note: '', cites: 1, href: 'files/wps/RPE_survey_2026.pdf' },
@@ -838,6 +840,8 @@ class Component extends DCLogic {
     ];
     // Optional `appendix:` (supplementary-appendix PDF). The Working Papers list renders the link only when present.
     workingPapers.forEach(p => { p.appendixDisplay = p.appendix ? 'inline-block' : 'none'; if (!p.appendix) p.appendix = '#'; });
+    // Optional `demo:` (an HTML page shown in a collapsible, lazily loaded iframe under the row) + `demoLabel:`.
+    workingPapers.forEach(p => { p.demoDisplay = p.demo ? 'block' : 'none'; if (!p.demo) p.demo = 'about:blank'; if (!p.demoLabel) p.demoLabel = 'Animation'; });
 
     // "Selected work": weighted-random sample by sqrt(Google Scholar cites). Snapshot 2026-07 -
     // update the `cites:` fields above to refresh the weights. Recomputed once per page load.
